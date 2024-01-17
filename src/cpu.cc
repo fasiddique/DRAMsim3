@@ -89,4 +89,36 @@ void TraceBasedCPU::ClockTick() {
     return;
 }
 
+void BenchmarkCPU::ClockTick() {
+    memory_system_.ClockTick();
+    uint64_t issued = 0;
+    while (issued < maxTransaction) {
+        if (!pendingReq.empty()) {
+            if (get_next_) {
+                get_next_ = false;
+                trans_ = pendingReq.front();
+                pendingReq.pop();
+            }
+            if (trans_.added_cycle <= clk_) {
+                get_next_ = memory_system_.WillAcceptTransaction(
+                    trans_.addr, trans_.is_write);
+                if (get_next_) {
+                    memory_system_.AddTransaction(trans_.addr, trans_.is_write);
+                    issued++;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    clk_++;
+    return;
+}
+
+void BenchmarkCPU::runAllPendingReq() {
+    while (!pendingReq.empty()) {
+        ClockTick();
+    }
+}
+
 }  // namespace dramsim3

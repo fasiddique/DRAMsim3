@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <functional>
+#include <queue>
 #include <random>
 #include <string>
 #include "memory_system.h"
@@ -65,6 +66,20 @@ class TraceBasedCPU : public CPU {
     std::ifstream trace_file_;
     Transaction trans_;
     bool get_next_ = true;
+};
+
+class BenchmarkCPU : public CPU {
+   public:
+    using CPU::CPU;
+    void ClockTick() override;
+    void runAllPendingReq();
+    void addRequest(const Transaction& req) { pendingReq.push(req); }
+
+   private:
+    std::queue<Transaction> pendingReq;
+    Transaction trans_;
+    bool get_next_ = true;
+    uint64_t maxTransaction = -1;
 };
 
 }  // namespace dramsim3
