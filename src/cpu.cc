@@ -89,7 +89,7 @@ void TraceBasedCPU::ClockTick() {
     return;
 }
 
-void BenchmarkCPU::ClockTick() {
+void PIMCPU::ClockTick() {
     memory_system_.ClockTick();
     uint64_t issued = 0;
     while (issued < maxTransaction && !pendingReq.empty()) {
@@ -113,7 +113,7 @@ void BenchmarkCPU::ClockTick() {
     return;
 }
 
-void BenchmarkCPU::runAllPendingReq() {
+void PIMCPU::runAllPendingReq() {
     while (!pendingReq.empty()) {
         ClockTick();
     }

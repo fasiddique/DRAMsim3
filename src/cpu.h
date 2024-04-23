@@ -68,7 +68,7 @@ class TraceBasedCPU : public CPU {
     bool get_next_ = true;
 };
 
-class BenchmarkCPU : public CPU {
+class PIMCPU : public CPU {
    public:
     using CPU::CPU;
     void ClockTick() override;
