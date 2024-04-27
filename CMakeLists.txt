@@ -26,7 +26,7 @@ add_library(json INTERFACE)
 target_include_directories(json INTERFACE ext/headers)
 
 # Main DRAMSim Lib
-add_library(dramsim3 SHARED
+add_library(dramsim3 STATIC
     src/cpu.cc
     src/bankstate.cc
     src/channel_state.cc
@@ -85,6 +85,7 @@ set_target_properties(dramsim3 PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
+    POSITION_INDEPENDENT_CODE OFF
 )
 
 # trace CPU, .etc

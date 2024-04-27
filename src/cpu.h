@@ -73,10 +73,12 @@ class PIMCPU : public CPU {
     using CPU::CPU;
     void ClockTick() override;
     void runAllPendingReq();
-    void addRequest(uint64_t addr, bool isWrite) { pendingReq.push(Transaction(addr, isWrite)); }
-    uint64_t getClock() {return clk_;}
-    MemorySystem *getMemorySystem() {return &memory_system_;}
-    double GetTCK() { return memory_system_.GetTCK();}
+    void addRequest(uint64_t addr, bool isWrite) {
+        pendingReq.push(Transaction(addr, isWrite));
+    }
+    uint64_t getClock() { return clk_; }
+    MemorySystem* getMemorySystem() { return &memory_system_; }
+    double GetTCK() { return memory_system_.GetTCK(); }
 
    private:
     std::queue<Transaction> pendingReq;
